@@ -1,5 +1,12 @@
 <template>
 	<view class="content">
+		<u-button type="primary">主要按钮</u-button>
+		<uni-badge class="uni-badge-left-margin" text="1" />
+		<uni-badge class="uni-badge-left-margin" text="2" type="primary" />
+		<uni-badge class="uni-badge-left-margin" text="34" type="success" />
+		<uni-badge class="uni-badge-left-margin" text="45" type="warning" />
+		<uni-badge class="uni-badge-left-margin" text="123" type="error" />
+		<uni-number-box :min="0" :max="9"></uni-number-box>
 		<image class="logo" src="/static/logo.png"></image>
 		<view class="text-area">
 			<text class="title">{{title}}</text>

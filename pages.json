@@ -12,5 +12,15 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"easycom": {
+	  "autoscan": true,
+	  "custom": {
+	    // "^uni-(.*)": "@/components/uni-$1.vue", // 匹配components目录内的vue文件
+	    "^vue-file-(.*)": "packageName/path/to/vue-file-$1.vue" ,// 匹配node_modules内的vue文件
+		"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"		,// npm安装方式
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"		// npm安装方式
+		// "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"  	// 下载安装方式
+	  }
 	}
 }
