@@ -21,7 +21,7 @@ export default new Vuex.Store({
 	modules,
 	//   getters,
 	plugins: [
-		CreatePersistedState({
+		persistedState({
 			storage: {
 				getItem: key => uni.getStorageSync(key),
 				setItem: (key, value) => uni.setStorageSync(key, value),

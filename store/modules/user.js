@@ -3,16 +3,37 @@
  * @Date: 2020-08-25 14:26:49
  * @Description: 用户信息
  */
+import qs from 'qs';
 
-const state = {
-    userId: 1,
-    name:'详细信息',
-    role:'',
-    roleType:'',
-    lastLoginTime:''
+
+function initState() {
+	return {
+		phoneNumber: '',	// 账号
+		addressList:[],		// 收货地址
+		// 订单信息
+		orderList:[{
+			name:'待付款',
+			productList:[],
+		},{
+			name:'待收货',
+			productList:[],
+		},{
+			name:'待评价',
+			productList:[],
+		},{
+			name:'退换货',
+			productList:[],
+		}],
+		points:0,			// 积分
+		coupon:[],			// 优惠券
+		collection:[],		// 产品收藏(删除的商品怎么办)
+		history:[], 		// 浏览足迹(删除的商品怎么办)
+		
+		ShoppingCart:[],		// 购物车
+	}
 }
 
-const STORE_USER_COMMIT_SUCCESS = null
+const state = initState();
 
 const getter = {
     getUserInfo: (state) => (key) => {
@@ -33,7 +54,59 @@ const mutations = {
                 }
             }
         }
-    }
+    },
+	TO_LOGIN: (state, config) => {
+	    // 清空用户相关信息，跳转到登录页面
+		resetUser();
+		let params = qs.stringify(config, {
+			arrayFormat: 'brackets'
+		})
+		let url = '/pages/login/login2' + '?' + params;
+		console.log('重定向地址: ', url);
+		let ret = true;
+		
+		uni.redirectTo({
+			url: url,
+			success: (res) => {
+				console.log('重定向login成功');
+				ret = true;
+			},
+			fail: (err) => {
+				console.error('重定向login失败: ',err);
+				ret = false;
+			}
+			
+		});
+		console.log('重定向结束: ', url);
+		return ret;
+	}
+}
+
+function resetUser() {
+	
+	let rawdata = initState();
+	Object.assign(state, rawdata);	// 清空用户设置
+	
+	let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
+	let curRoute = routes[routes.length - 1].route // 获取当前页面路由，也就是最后一个打开的页面路由
+	let curParam = routes[routes.length - 1].options;
+	// let curRoute2  = app.$mp.page.route;
+	console.log("准备去登录，当前页面:",curRoute,"--参数:",JSON.stringify(curParam));
+	
+	let redirect = encodeURIComponent(curRoute);
+	let isReLaunch = true; // 不能返回了
+	uni.reLaunch({
+	   url: '/pages/login/login?isReLaunch=true&redirect =' + redirect
+	});
+}
+
+function mutationsCallback(ret, obj, resolve, reject)
+{
+	if (ret) {
+		resolve(obj);
+	} else {
+		reject(obj);
+	}
 }
 
 const actions = {
@@ -63,7 +136,22 @@ const actions = {
             commit('SET_USER_INFO', config)
             resolve(config);
         });
-    }
+    },
+	
+	toLogin({ commit, state }, config) {
+	    let ret = commit('TO_LOGIN', config);
+		console.log('toLogin 完毕:',ret);
+		uni.showToast({
+			title:'完毕'
+		})
+		
+	},
+	toLoginWithCallback({ commit, state }, config) {
+	    return new Promise((resolve, reject) => {
+	        commit('SET_USER_INFO', config)
+	        resolve(config);
+	    });
+	},
 }
 
 export default {

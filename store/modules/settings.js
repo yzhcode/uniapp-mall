@@ -9,10 +9,7 @@
 // } from '@/assets/theme/setTheme.js'
 
 const state = {
-    theme: 'cc',
-    showSettings: true,
-    fixedHeader: false,
-    sidebarLogo: false
+    theme: 'cc'
 }
 
 const getter = {
@@ -36,17 +33,6 @@ const mutations = {
 }
 
 const actions = {
-    // changeTheme({ commit, state }, theme) {
-    //     commit('SET_THEME', theme)
-    //     setTheme(theme);
-    // },
-    // changeThemeWithCallback({ commit, state }, theme) {
-    //     return new Promise((resolve, reject) => {
-    //         commit('SET_THEME', theme);
-    //         setTheme(theme);
-    //         resolve(config);
-    //     });
-    // },
     changeSetting({ commit, state }, config) {
         commit('CHANGE_SETTING', config)
     },
