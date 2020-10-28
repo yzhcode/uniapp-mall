@@ -5,10 +5,11 @@
 import qs from 'qs';
 import Request from 'luch-request' // 下载的插件
 import store from '@/store'
+import print from '@/common/log.js'
 
 let http = new Request();
 http.setConfig((config) => {
-	console.log('config:', config);
+	print.log('config:', config);
 	/* #ifndef H5 */
 	config.baseURL = 'http://10.133.17.56:11008'; //H5不用这个，用代理
 	/* #endif */
@@ -45,7 +46,7 @@ http.interceptors.request.use((config) => { /* 请求之前拦截器。可以使
 
 
 http.interceptors.response.use(async (response) => { /* 请求之后拦截器。可以使用async await 做异步操作  */
-	console.log('response拦截：', response);
+	print.log('response拦截：', response);
 	if (response.statusCode === 200) {
 		if (response.data.result == "noauth") {
 			toLogin(); // 重定向到登录页面
@@ -54,11 +55,11 @@ http.interceptors.response.use(async (response) => { /* 请求之后拦截器。
 			return response;
 		}
 	} else {
-		console.log('response拦截到状态错误: ', response)
+		print.error('response拦截到状态错误: ', response)
 		return Promise.reject(response);
 	}
 }, (error) => { // 请求错误做点什么。可以使用async await 做异步操作
-	console.log('response拦截到错误: ', error)
+	print.error('response拦截到错误: ', error)
 	return Promise.reject(error)
 });
 
@@ -66,9 +67,9 @@ http.interceptors.response.use(async (response) => { /* 请求之后拦截器。
 
 let toLogin = function() {
 	store.dispatch('user/toLogin').then(res => {
-		console.log('设置用户成功 :>> ');
+		print.log('设置用户成功 :>> ');
 	}).catch(error => {
-		console.log('设置用户失败 :>> ');
+		print.error('设置用户失败 :>> ');
 	});
 }
 

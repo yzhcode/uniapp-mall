@@ -5,6 +5,7 @@
 import {POST} from '@/common/http.js'
 import {GET} from '@/common/http.js'
 import print from '@/common/log.js'
+import store from '@/store'
 // import http from '@/network/http'
 // Vue.use(http)
 // import md5 from 'js-md5'
@@ -42,29 +43,29 @@ export default {
 	/*
 		用户登录
 	*/
-    userLogin(username, password) {
+    userLogin(username, password, logintype) {
 		return new Promise((resolve, reject) => {
 			POST("https://2d10f519-d95e-46d4-9fe3-2a6712914d56.bspapp.com/http/login",{
 				username:username,
 				password:password,
-				logintype:'wx'
+				logintype:logintype
 			}).then(res => {
-				print.info('登录响应: ', res.data);
+				print.info('API-->登录响应: ', res.data);
 				if (res && res.data && res.data.result) {
 					if (res.data.result === 'success') {
-						print.info("登录成功");
+						print.info("API-->登录成功");
 						resolve(res.data);
 					} else {
-						print.error('登录失败: ',res.data.msg);
+						print.error('API-->登录失败: ',res.data.msg);
 						reject(res.data.msg);
 					}
 				} else {
-					print.error('登录反馈数据格式错误');
+					print.error('API-->登录反馈数据格式错误');
 					reject('登录反馈数据格式错误');
 				}
 				
 			}).catch(error => {
-				print.error(error);
+				print.error("API-->",error);
 				reject(error);
 			});
 		})
@@ -74,17 +75,24 @@ export default {
 			POST("https://2d10f519-d95e-46d4-9fe3-2a6712914d56.bspapp.com/http/logout",{
 				
 			}).then(res => {
-				print.info('登录响应: ', res.data);
+				print.info('API-->退出登录响应: ', res.data);
 				if (res && res.data && res.data.result) {
 					if (res.data.result === 'success') {
-						print.info("登录成功");
-						resolve(res.data);
+						print.info("API-->退出登录成功");
+						
+						store.dispatch('user/logoutWithCallback',{}).then(res => {
+							console.log('API-->清空用户信息成功');
+							resolve(res.data);
+						}).catch(error => {
+							reject(error);
+						});
+		
 					} else {
-						print.error('登录失败: ',res.data.msg);
+						print.error('API-->退出登录失败: ',res.data.msg);
 						reject(res.data.msg);
 					}
 				} else {
-					print.error('登录反馈数据格式错误');
+					print.error('API-->退出登录，反馈数据格式错误');
 					reject('登录反馈数据格式错误');
 				}
 				

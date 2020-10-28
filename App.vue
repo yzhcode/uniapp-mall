@@ -2,6 +2,9 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			let theme = this.$store.state.settings.theme;
+			let role = this.$store.state.user.role;
+			console.log('theme:', theme, '===role:',role);
 		},
 		onShow: function() {
 			console.log('App Show')

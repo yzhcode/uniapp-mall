@@ -18,7 +18,14 @@
   },
   "homepage": "https://github.com/yzhcode/uniapp-mall#readme",
   "dependencies": {
-    "@dcloudio/uni-ui": "^1.2.6",
-    "uview-ui": "^1.7.7"
+    "@dcloudio/uni-ui": "^1.2.7",
+    "axios": "^0.21.0",
+    "js-base64": "^3.5.2",
+    "luch-request": "^3.0.4",
+    "md5": "^2.3.0",
+    "qs": "^6.9.4",
+    "uni-simple-router": "^1.5.5",
+    "uview-ui": "^1.7.7",
+    "vuex-persistedstate": "^4.0.0-beta.1"
   }
 }

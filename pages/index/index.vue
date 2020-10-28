@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<u-button type="primary">主要按钮</u-button>
+		<u-button type="primary" @click="logout">主要按钮</u-button>
 		<uni-badge class="uni-badge-left-margin" text="1" />
 		<uni-badge class="uni-badge-left-margin" text="2" type="primary" />
 		<uni-badge class="uni-badge-left-margin" text="34" type="success" />
@@ -28,7 +28,7 @@ export default {
 		};
 	},
 	onLoad() {
-		this.$log.error('log--', null, undefined)
+		// this.$log.error('log--', null, undefined)
 		// this.$log2('log--', 'log---')
 
 		this.getImage();
@@ -38,7 +38,13 @@ export default {
 		// localCache.getImageCache()
 	},
 	methods: {
-		
+		logout: function() {
+			this.$api.userLogout().then(res => {
+				console.log('index logout 成功');
+			}).catch(error => {
+				console.log('index logout 失败');
+			});
+		},
 		downjson: function() {
 			uni.request({
 				url:"https://tcb-dnqcygsynda9lgkf2cb0a-0a732c.service.tcloudbase.com/cloudtest",
@@ -50,21 +56,7 @@ export default {
 				}
 			})
 		},
-		setStorex: function() {
-			// this.$store
-			// 	.dispatch('user/toLogin', {
-			// 		userId: 4,
-			// 		name: 'ddd',
-			// 		role: '11',
-			// 		roleType: '5'
-			// 	})
-			// 	.then(res => {
-			// 		console.log('设置用户成功 :>> ');
-			// 	})
-			// 	.catch(error => {
-			// 		console.log('设置用户失败 :>> ');
-			// 	});
-		},
+		
 		getImage: function() {
 			var self = this;
 			var key = 'image'

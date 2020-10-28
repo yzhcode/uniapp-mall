@@ -18,13 +18,14 @@
 	</view>
 </template>
 <script>
-	
+	// import {log2} from '@/common/log.js'
 	// var  graceChecker = require("../../common/graceChecker.js");
 	export default {
 		data() {
 			return {
 				username:'admin',
 				password:'2',
+				logintype:'phone',
 				passwordmd5:'',
 				isReLaunch:false,
 				redirect:''
@@ -34,42 +35,39 @@
 			
 		},
 		onLoad(options) {
-			this.isReLaunch = options.isReLaunch;
+			this.isReLaunch = (options.isReLaunch === "true")?true:false;
 			this.redirect = options.redirect;
-			console.log('onLoad:',options);
+			// log2('onLoad:',options);
+			console.log('登录页加载, options:',JSON.stringify(options));
 		},
 		methods: {
 			formSubmit: function(e) {
 				console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
                 //定义表单规则
-				this.login(e.detail.value.username, e.detail.value.password);
+				this.login(e.detail.value.username, e.detail.value.password, 'phone');
 			},
 			formReset: function(e) {
 				console.log('清空数据');
 				this.username = '';
 				this.password = '';
 			},
-			login: function(username, password) {
+			login: function(username, password, logintype) {
 				// let passwordmd5 = md5(password);
-				let configdata = {username: username, password: password, cgi_type:1};
 				let self = this;
-				this.$api.userLogin(username, password).then(res => {
-					
-					uni.showToast({
-						title:'登录成功'
-					});
+				this.$api.userLogin(username, password, logintype).then(res => {
+					console.info('登录成功, 即将重定向页面: ',self.redirect);
 					uni.redirectTo({
 						url:(self.redirect && self.redirect.length > 0)?self.redirect:'/pages/index/index',
 						fail: (error) => {
-							console.log('重定向错误:',error);
+							console.error('重定向错误:',error);
 						},
 						success: (response) => {
-							console.log('重定向成功');
+							console.debug('重定向成功');
 						}
 					})
 					// self.loadArea();
 				}).catch(err => {
-					
+					console.info('登录失败, 请重试');
 				})
 			}
 		}
