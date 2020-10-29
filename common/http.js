@@ -46,7 +46,7 @@ http.interceptors.request.use((config) => { /* 请求之前拦截器。可以使
 
 
 http.interceptors.response.use(async (response) => { /* 请求之后拦截器。可以使用async await 做异步操作  */
-	print.log('response拦截：', response);
+	// print.log('response拦截：', response);
 	if (response.statusCode === 200) {
 		if (response.data.result == "noauth") {
 			toLogin(); // 重定向到登录页面

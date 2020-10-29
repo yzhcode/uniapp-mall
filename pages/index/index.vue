@@ -31,9 +31,9 @@ export default {
 		// this.$log.error('log--', null, undefined)
 		// this.$log2('log--', 'log---')
 
-		this.getImage();
-		this.setStorex();
-		this.downjson();
+		// this.getImage();
+
+		// this.downjson();
 		
 		// localCache.getImageCache()
 	},

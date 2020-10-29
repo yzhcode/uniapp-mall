@@ -13,18 +13,14 @@ import store from '@/store'
 export default {
 	/*
 		两种结构：
-		haveCallbackFun: 接口中需要处理then和catch，处理完了内部的回调之后，处理外部回调
-		noCallbackFun: 接口中不需要处理then和catch，只需处理内部的回调
+		haveCallbackFun: 接口本身先处理结果，再丢给调用方处理结果
+		noCallbackFun: 直接丢给调用方处理结果
 	*/
 	
-	haveCallbackFun(param1, param2) {
-		return POST('url',{param1:param1, param2:param2}).then(res => {
-			
-		}).catch(error => {
-			
-		});
-	},
 	noCallbackFun(param1, param2) {
+		return POST('url',{param1:param1, param2:param2});
+	},
+	haveCallbackFun(param1, param2) {
 		return new Promise((resolve, reject) => {
 			POST('url',{param1:param1, param2:param2}).then(res => {
 				// 处理结果

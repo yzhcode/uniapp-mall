@@ -88,7 +88,7 @@ const mutations = {
 			let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
 			let curRoute = routes[routes.length - 1].route // 获取当前页面路由，也就是最后一个打开的页面路由
 			let curParam = routes[routes.length - 1].options;
-
+			console.log('LOGOUT-->没有设置重定向信息，记录当前路由信息: ', JSON.stringify(curRoute), ', 参数:',JSON.stringify(curParam));
 			redirect = curRoute;//encodeURIComponent(curRoute);
 		}
 
@@ -99,7 +99,7 @@ const mutations = {
 		
 		console.log('LOGOUT-->即将重定向登录页面: ', url);
 		let ret = true;
-		uni.redirectTo({
+		let navigationConfig = {
 			url: url,
 			success: (res) => {
 				console.log('LOGOUT-->重定向login成功');
@@ -109,8 +109,13 @@ const mutations = {
 				console.error('LOGOUT-->重定向login失败: ', err);
 				ret = false;
 			}
-
-		});
+		}
+		if (isReLaunch) {
+			uni.reLaunch(navigationConfig);
+		} else {
+			uni.navigateTo(navigationConfig);
+		}
+		
 		// 有回调则把return结果放到return缓存中
 		mutationsCallback(callback, ret, ('重定向' + (ret ? "成功" : "失败") + ':' + url))
 	}

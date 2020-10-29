@@ -56,7 +56,7 @@
 				let self = this;
 				this.$api.userLogin(username, password, logintype).then(res => {
 					console.info('登录成功, 即将重定向页面: ',self.redirect);
-					uni.redirectTo({
+					uni.switchTab({
 						url:(self.redirect && self.redirect.length > 0)?self.redirect:'/pages/index/index',
 						fail: (error) => {
 							console.error('重定向错误:',error);
